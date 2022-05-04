@@ -1,0 +1,142 @@
+= Ch 2 - Java Building Blocks
+
+****
+*OCP EXAM OBJECTIVES COVERED IN THIS CHAPTER:*
+
+* *Working With Java Primitive Data Types and String APIs*
+* Declare and initialize variables (including casting and promoting primitive data types)
+* Identify the scope of variables
+* Use local variable type inference
+* *Describing and Using Objects and Classes*
+* Declare and instantiate Java objects, and explain objects’ lifecycles (including creation, dereferencing by reassignment, and garbage collection)
+* Read or write to object fields
+****
+
+== Creating Objects: _new_
+=== Calling constructors
+There are two key points to note about the constructor: the name of the constructor matches the name of the class, and there’s no return type.
+
+The purpose of a constructor is to initialize fields, although you can put any code in there.
+
+=== FOLLOWING ORDER OF INITIALIZATION
+* Fields and instance initializer blocks are run in the order in which they appear in the file.
+* The constructor runs after all fields and instance initializer blocks have run.
+
+Order matters for the fields and blocks of code. You can’t refer to a variable before it has been defined
+
+== Data Types
+
+=== Primitives
+Java has eight built-in data types, referred to as the Java primitive types.
+These eight data types represent the building blocks for Java objects, because all Java objects are just a complex collection of these primitive
+data types. That said, a primitive is not an object in Java nor does it represent an object. A primitive is just a single value in memory, such as a number or character.
+
+|========================
+|Keyword | Type | Example
+|boolean | true or false | true
+|byte | 8-bit integral value | 123
+|short | 16-bit integral value | 123
+|int | 32-bit integral value | 123
+|long | 64-bit integral value | 123L
+|float | 32-bit floating-point value | 123.45f
+|double | 64-bit floating-point value | 123.456
+|char | 16-bit Unicode value | 'a'
+|========================
+
+* A float requires the letter f following the number so Java knows it is a float.
+* floating-point literals are assumed to be double, unless postfixed with an f, as in 2.1f.
+* Each numeric type uses twice as many bits as the smaller similar type. For example, short uses twice as many bits as byte does.
+* All of the numeric types are signed in Java. This means that they reserve one of their bits to cover a negative range. For example, byte ranges from -128 to 127. You might be surprised that the range is not -128 to 128. Don’t forget, 0 needs to be accounted for too in the range.
+* short and char are closely related, as both are stored as integral types with the same 16-bit length. The primary difference is that short is signed, char is unsigned.
+* Octal (digits 0–7), which uses the number 0 as a prefix—for example, 017
+* Hexadecimal (digits 0–9 and letters A–F/a–f), which uses 0x or 0X as a prefix—for example, 0xFF, 0xff, 0XFf. Hexadecimal is case insensitive so
+all of these examples mean the same value.
+* Binary (digits 0–1), which uses the number 0 followed by b or B as a prefix —for example, 0b10, 0B10
+
+=== Identifiers
+* Identifiers must begin with a letter, a $ symbol, or a _ symbol.
+* Identifiers can include numbers but not start with them.
+* Since Java 9, a single underscore _ is not allowed as an identifier.
+
+=== Local Variables
+A local variable is a variable defined within a constructor, method, or
+initializer block.
+Local variables do not have a default value and must be initialized before
+use.
+
+=== VAR
+Starting in Java 10, you have the option of using the keyword var instead of the type for local variables under certain conditions. To use this feature, you just type var instead of the primitive or reference type. Here’s an
+example:
+[source,java]
+----
+public void whatTypeAmI() {
+var name = "Hello";
+var size = 7;
+}
+----
+The formal name of this feature is *local variable type inference.* The compiler looks at the code on the line of the declaration and uses it to infer the type.
+In Java, var is still a specific type defined at compile time. It does not change type at runtime.
+
+[source,java]
+----
+var a = 2, b = 3; // DOES NOT COMPILE
+----
+Java does not allow var in multiple variable declarations.
+
+[source,java]
+----
+public int addition(var a, var b) { // DOES NOT COMPILE
+return a + b;
+}
+----
+In this example, _a_ and _b_ are method parameters. These are not local variables. Be on the lookout for var used with constructors, method parameters, or instance variables. Using var in one of these places is a good exam trick to see if you are paying attention. Remember that *var is only used for local variable type inference!*
+
+*var Rules:*
+
+. A var is used as a local variable in a constructor, method, or initializer block.
+. A var cannot be used in constructor parameters, method parameters, instance variables, or class variables.
+. A var is always initialized on the same line (or statement) where it is declared.
+. The value of a var can change, but the type cannot.
+. A var cannot be initialized with a null value without a type.
+. A var is not permitted in a multiple-variable declaration.
+. A var is a reserved type name but not a reserved word, meaning it can be used as an identifier except as a class, interface, or enum name.
+
+=== Managing variable Scope
+
+==== LIMITING SCOPE
+Local variables can never have a scope larger than the method they are defined in.
+
+==== NESTING SCOPE
+Remember that blocks can contain other blocks. These smaller contained blocks can reference variables defined in the larger scoped blocks, but not vice versa.
+
+==== REVIEWING SCOPE
+* Local variables: In scope from declaration to end of block
+* Instance variables: In scope from declaration until object eligible for garbage collection
+* Class variables: In scope from declaration until program ends
+
+=== Destroying Objects - Garbage Collection
+All Java objects are stored in your program memory’s heap. The heap, which is also referred to as the free store, represents a large pool of unused memory allocated to your Java application.
+
+Garbage collection refers to the process of automatically freeing memory on the heap by deleting objects that are no longer reachable in your program.
+
+==== Eligible for Garbage Collection
+Eligible for garbage collection refers to an object’s state of no longer being accessible in a program and therefore able to be garbage collected.
+
+Does this mean an object that’s eligible for garbage collection will be immediately garbage collected? *Definitely not.*
+
+==== Calling System.gc()
+Java includes a built-in method to help support garbage collection that can be called at any time.
+What is the *System.gc()* command guaranteed to do? Nothing, actually. It merely suggests that the JVM kick off garbage collection. The JVM is free to ignore the request.
+
+==== TRACING ELIGIBILITY
+An object will remain on the heap until it is no longer reachable. An object is no longer
+reachable when one of two situations occurs:
+* The object no longer has any references pointing to it.
+* All references to the object have gone out of scope.
+
+==== OBJECTS VS. REFERENCES
+* The reference is a variable that has a name and can be used to access the contents of an object.
+* An object sits on the heap and does not have a name. Therefore, you have no way to access an object except through a reference.
+
+==== FINALIZE()
+finalize() can run zero or one times. It cannot run twice.
