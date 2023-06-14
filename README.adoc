@@ -73,3 +73,81 @@
 * Understand the basics of Java Logging API.
 * Use Annotations such as Override, Functionalnterface, Deprecated, SuppressWarnings, and SafeVarargs.
 * Use generics, including wildcards.
+
+
+
+=== var
+
+Starting in Java 10, you have the option of using the keyword var instead
+of the type for local variables under certain conditions. To use this feature,
+you just type var instead of the primitive or reference type. Here’s an
+example:
+[source]
+----
+public void whatTypeAmI() {
+var name = "Hello";
+var size = 7;
+}
+----
+
+Review of var Rules
+We complete this section by summarizing all of the various rules for using
+var in your code. Here’s a quick review of the var rules:
+1. A var is used as a local variable in a constructor, method, or initializer
+block.
+2. A var cannot be used in constructor parameters, method parameters,
+instance variables, or class variables.
+3. A var is always initialized on the same line (or statement) where it is
+declared.
+4. The value of a var can change, but the type cannot.
+5. A var cannot be initialized with a null value without a type.
+6. A var is not permitted in a multiple-variable declaration.
+7. A var is a reserved type name but not a reserved word, meaning it can be
+used as an identifier except as a class, interface, or enum name.
+
+
+==
+Exam Essentials
+Be able to recognize a constructor. A constructor has the same name as
+the class. It looks like a method without a return type.
+Be able to identify legal and illegal declarations and initialization.
+Multiple variables can be declared and initialized in the same statement
+when they share a type. Local variables require an explicit initialization;
+others use the default value for that type. Identifiers may contain letters,
+numbers, $, or _, although they may not begin with numbers. Also, you
+cannot define an identifier that is just a single underscore character _.
+Numeric literals may contain underscores between two digits, such as
+1_000, but not in other places, such as _100_.0_. Numeric literals can
+begin with 1–9, 0, 0x, 0X, 0b, and 0B, with the latter four indicating a
+change of numeric base.
+Be able to use var correctly. A var is used for a local variable inside a
+constructor, a method, or an initializer block. It cannot be used for
+constructor parameters, method parameters, instance variables, or class
+variables. A var is initialized on the same line where it is declared, and
+while it can change value, it cannot change type. A var cannot be
+initialized with a null value without a type, nor can it be used in multiple
+variable declarations. Finally, var is not a reserved word in Java and can
+be used as a variable name.
+Be able to determine where variables go into and out of scope. All
+variables go into scope when they are declared. Local variables go out of
+scope when the block they are declared in ends. Instance variables go out
+of scope when the object is eligible for garbage collection. Class variables
+remain in scope as long as the program is running.
+Know how to identify when an object is eligible for garbage collection.
+Draw a diagram to keep track of references and objects as you trace the
+code. When no arrows point to a box (object), it is eligible for garbage
+collection.
+
+
+== Switch
+The following is a list of all data types supported by switch statements:
+* int and Integer
+* byte and Byte
+* short and Short
+* char and Character
+* String
+* enum values
+* var (if the type resolves to one of the preceding types)
+For the exam, we recommend you memorize this list. Remember,
+boolean, long, float, double, and each of their associated wrapper
+classes are not supported by switch statements.
